@@ -1,0 +1,31 @@
+.auth-bg {
+    background: url(../img/background.png) no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    flex: 0.5;
+
+}
+
+.auth-form {
+    height: 100%;
+    flex-direction: column;
+    flex: 0.5
+}
+
+.navbar {
+    display: flex;
+    flex: 0.2;
+    height: 40px;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.text-account {
+    position: relative;
+    text-align: center;
+    top: -20px;
+    background: white;
+    width: 40%;
+    margin: 0 auto;
+}
