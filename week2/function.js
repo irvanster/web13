@@ -54,7 +54,7 @@ console.log(mergeArray(array1, array1, apalah))
 
 console.log(
   sum({
-    x: 900,
+    x: 2,
     y: 10,
   })
 );
