@@ -80,6 +80,7 @@ const fetchApi = async ()=> {
         console.log('data user tidak ada')
     }
 }
+
 const data = await fetchApi()
 console.log(data)
 // fetchApi('user').then((res)=> {
