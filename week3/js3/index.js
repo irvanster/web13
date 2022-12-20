@@ -3,7 +3,6 @@ import axios from "axios"
 
 let getUsers = (params)=> {
     return new Promise((resolve, reject) => {
-        let data
         fetch('https://jsonplaceholder.typicode.com/users')
             .then((response)=> {
                 if(response.ok) {
@@ -29,18 +28,18 @@ let getUsers = (params)=> {
             }))
     })
 }
-axios.get('https://jsonplaceholder.typicode.com/posts')
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  })
-  .finally(function () {
-    // always executed
-  });
+// axios.get('https://jsonplaceholder.typicode.com/posts')
+//   .then(function (response) {
+//     // handle success
+//     console.log(response);
+//   })
+//   .catch(function (error) {
+//     // handle error
+//     console.log(error);
+//   })
+//   .finally(function () {
+//     // always executed
+//   });
 // let getPost = ()=> {
 //     return new Promise((resolve, reject) => {
 //         axios.get('https://jsonplaceholder.typicode.com/users')
@@ -62,25 +61,27 @@ axios.get('https://jsonplaceholder.typicode.com/posts')
 // }).catch((err)=> {
 //     console.log(err)
 // })
-getUsers().then((result)=> {
-    console.log(result)
-}).catch((err)=> {
-    console.log(err)
-})
+// getUsers().then((result)=> {
+//     console.log(result)
+// }).catch((err)=> {
+//     console.log(err)
+// })
 
-// const fetchApi = async ()=> {
-//     try {
-//         const dataUser = await getUsers()
-//         return dataUser
-//         // dataUser.data.map((item)=> {
-//         //     console.log(item)
-//         // })
-//         // const array = ['aokwoa','aowkao','awkwoa']
-//         // console.log(e)
-//     } catch (error) {
-//         console.log('data user tidak ada')
-//     }
-// }
+const fetchApi = async ()=> {
+    try {
+        const dataUser = await getUsers()
+        return dataUser
+        // dataUser.data.map((item)=> {
+        //     console.log(item)
+        // })
+        // const array = ['aokwoa','aowkao','awkwoa']
+        // console.log(e)
+    } catch (error) {
+        console.log('data user tidak ada')
+    }
+}
+const data = await fetchApi()
+console.log(data)
 // fetchApi('user').then((res)=> {
 //     console.log(res)
 // })
