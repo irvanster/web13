@@ -2,6 +2,7 @@ const { urlencoded, json } = require("express");
 const express = require("express");
 const app = express();
 const router = require('./src/route/index')
+const cors = require('cors')
 //defaultnya express js itu ga menerima semua jenis form.
 // use() middleware urlencoded, json
 //menerima application/x-www-form-urlencoded
