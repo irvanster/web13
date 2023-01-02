@@ -8,6 +8,11 @@ const router = require('./src/route/index')
 app.use(urlencoded({ extended: true }));
 //menerima json
 app.use(json());
+//cors
+app.use(cors({
+  origin: ['adriel.com'],
+}))
+app.use(cors())
 app.use('/api/v1/', router)
 
 app.get("*", (req, res) => {

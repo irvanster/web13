@@ -1,10 +1,26 @@
-const db = require("../../helper/connection")
+const db = require("../../helper/connection");
 const { v4: uuidv4 } = require('uuid');
 const productModel = {
-    get:()=> {
+    query: (queryParams, sortType='asc', limit=5)=> {
+      if(queryParams.search && queryParams.cat) {
+        return `WHERE title LIKE '%${queryParams.search}%' AND category LIKE '%${queryParams.cat}%' ORDER BY title ${sortType} LIMIT ${limit}`
+      } else if(queryParams.search || queryParams.cat) {
+        return `WHERE title LIKE '%${queryParams.search}%' OR category LIKE '%${queryParams.cat}%' ORDER BY title ${sortType} LIMIT ${limit}`
+      }else {
+        return `ORDER BY title ${sortType} LIMIT ${limit}`
+      }
+
+      // const {search,cat} = queryParams
+      // return `WHERE title LIKE '%${search}%' ${search && cat ?'AND':'OR'} category LIKE '%${cat}%' ORDER BY title ${sortType}`
+
+    },
+    get: function (queryParams) {
+        console.log(queryParams)
+        // ${queryParams.search && `WHERE title LIKE '%${queryParams.search}%'`}
+        // ${queryParams.search && `WHERE title LIKE '%${queryParams.search}%' OR category LIKE '%${queryParams.search}%'`}
         return new Promise((resolve, reject)=> {
             db.query(
-                `SELECT * from products`,
+                `SELECT * from products ${this.query(queryParams, queryParams.sortBy, queryParams.limit)}`,
                 (err, result) => {
                   if (err) {
                     return reject(err.message)

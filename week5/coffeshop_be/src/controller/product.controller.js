@@ -2,11 +2,15 @@ const productModel = require("../model/product.model")
 
 const productController = {
     get:(req, res)=> {
-        return productModel.get()
+        // req.params
+        // req.query
+        // req.body
+        return productModel.get(req.query)
         .then((result)=> {
             //next explore
             // return formResponse("succes", result, 200)
-            return formResponse({ message: "succes", data: result, status: 200 })
+            // return formResponse({ message: "succes", data: result, status: 200 })
+            return res.status(200).send({ message: "success", data: result })
         }).catch((error)=> {
             return res.status(500).send({ message: error })
         })
