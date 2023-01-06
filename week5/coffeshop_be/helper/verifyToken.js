@@ -19,6 +19,10 @@ const verifyToken = (req, res, next)=> {
                     return res.status(403).send({
                         message: 'kamu tidak memiliki akses.'
                     })
+                }else {
+                    return res.status(403).send({
+                        message: 'kamu tidak memiliki akses.'
+                    })
                 }
             }else {
                 return res.status(400).send({
