@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { urlencoded, json } = require("express");
 const express = require("express");
 const app = express();
@@ -9,11 +11,10 @@ const cors = require('cors')
 app.use(urlencoded({ extended: true }));
 //menerima json
 app.use(json());
-//cors
-app.use(cors({
-  origin: ['adriel.com'],
-}))
-app.use(cors())
+// app.use(cors({
+//   origin: ['adriel.com'], //mengijinkan adriel.com
+// }))
+app.use(cors()) //semua bisa akses
 app.use('/api/v1/', router)
 
 app.get("*", (req, res) => {
