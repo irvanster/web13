@@ -19,7 +19,22 @@ const productController = {
 
     },
     add:(req, res)=> {
-        return productModel.add(req.body)
+        const request = {
+            ...req.body,
+            // file: req.files, //uncomment if multiple
+            img: req.file.filename, //uncomment if single
+            //depend on product.route, formUpload.single or formUpload.array
+        }
+        // console.log(req.files) //multiple
+        // console.log(req.file) //(single)
+
+        //
+        //berarti kita mau bikin product yang banyak images, itu gimana?
+        // 1. kita bikin 2-3 column untuk (img1, img2, img3)
+        // 2. (RECOMMENDED) kita bikin table khusus untuk product_images
+            //  ->id_image, id_product, name, alt_name, filename
+            // -> ketika get product, join table dengan product images
+        return productModel.add(request)
         .then((result)=> {
             return res.status(201).send({ message: "succes", data: result })
         }).catch((error)=> {
