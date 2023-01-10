@@ -5,12 +5,16 @@ const express = require("express");
 const app = express();
 const router = require('./src/route/index')
 const cors = require('cors')
+
+app.use(express.static('public'))
+// https://expressjs.com/en/starter/static-files.html
+
 //defaultnya express js itu ga menerima semua jenis form.
 // use() middleware urlencoded, json
 //menerima application/x-www-form-urlencoded
+app.use(json());
 app.use(urlencoded({ extended: true }));
 //menerima json
-app.use(json());
 // app.use(cors({
 //   origin: ['adriel.com'], //mengijinkan adriel.com
 // }))

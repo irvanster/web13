@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="../src/apiHelper.js"></script>
+
+</head>
+<body>
+    <div id="products"></div>
+    <script>
+        if(typeof localStorage.getItem('token') =="undefined") {
+            window.location.replace('../login.html')
+        }
+
+        fetcher('GET', 'products').then((data)=> {
+            console.log(data)
+                document.getElementById('products').innerHTML = data.map((item)=> `
+                <div class='card-feeds'>
+                    <div>${item.title}</div>
+                    <img width="100px" height="100px" src='http://localhost:3000/uploads/images/${item.images[0].filename}'>
+                    <p>${item.price}</p>
+                    <button onclick='deleteData(${item.id})'>delete</button>
+                </div>
+                `
+            ).join('')}).catch((err)=> {
+                if(err == 400) {
+                    alert('kamu belum login')
+                    window.location.replace('../login.html')
+
+                }
+            })
+    </script>
+    
+    <button onclick="localStorage.removeItem('token');window.location.reload()">logout</button>
+</body>
+</html>

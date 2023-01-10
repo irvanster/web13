@@ -19,10 +19,11 @@ const productController = {
 
     },
     add:(req, res)=> {
+        console.log(req.files)
         const request = {
             ...req.body,
-            // file: req.files, //uncomment if multiple
-            img: req.file.filename, //uncomment if single
+            file: req.files, //uncomment if multiple
+            // img: req.file.filename, //uncomment if single
             //depend on product.route, formUpload.single or formUpload.array
         }
         // console.log(req.files) //multiple

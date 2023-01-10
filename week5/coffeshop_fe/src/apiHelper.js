@@ -12,13 +12,19 @@ const fetcher = async(method, ep, body={})=> {
 }
 const getData= (ep) => {
     return new Promise((resolve, reject)=> {
-        fetch(`http://localhost:3000/api/v1/${ep}`)
+        fetch(`http://localhost:3000/api/v1/${ep}`, {
+            headers: {
+                token: localStorage.getItem('token')
+            }
+        })
         .then(res => {
-            if (!res.ok) return Promise.reject(new Error(`HTTP Error ${res.status}`));
-    
+            if (!res.ok) return Promise.reject(`${res.status}`);
+            
             return res.json();
         })
-        .then(result => resolve(result.data))
+        .then(result => {
+            return resolve(result.data)
+        })
         .catch(err => reject(err));
     })
 

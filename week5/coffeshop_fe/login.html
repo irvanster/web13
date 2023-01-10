@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <form id="loginForm">
+        <input name="username" id="usernameForm" />
+        <input name="password" id="passwordForm" />
+        <button>LOGIN</button>
+    </form> -->
+    <button id="login">LOGIN</button>
+    <script>
+        if(typeof localStorage.getItem('token') == "string") {
+            window.location.replace('/admin/addnewproduct.html')
+        }
+    </script>
+    <script>
+        //goals habis setelah login form, makan kita akan setItem localStorage
+        document.getElementById('login').onclick = ()=> {
+            localStorage.setItem('token', `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRkNGFkMTJhLTY1ZTctNGJiYS1iYjE4LTFmYzVkYjI4NzRlYiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3MzMyODg2OX0.4CSS9FMdTrYwOs9lbwZwynYGP9fbJYNqu-i228gfJjo`)
+            window.location.reload()
+        }
+        // fetch('http://localhost:3000/api/v1/auth/login',{
+        //     method: "POST",
+        //     body: {
+        //     "username":"abi",
+        //     "password": "pw123"
+        //     }
+        // }).then((res)=> {
+        //     return res.json()
+        // }).then((data)=> {
+        //     console.log(data)
+        // })
+    </script>
+</body>
+</html>
