@@ -1,5 +1,5 @@
 const productModel = require("../model/product.model")
-
+const { unlink } = require('node:fs');
 const productController = {
     get:(req, res)=> {
         // req.params
@@ -46,16 +46,35 @@ const productController = {
         const request = {
             ...req.body,
             id: req.params.id,
+            file: req.files
         }
         return productModel.update(request)
         .then((result)=> {
+            for (let index = 0; index < result.oldImages.length; index++) {
+                console.log(result.oldImages[index].filename)
+                unlink(`public/uploads/images/${result.oldImages[index].filename}`, (err) => {
+                    // if (err) throw err;
+                    console.log(`successfully deleted ${result.oldImages[index].filename}`);
+                });
+            }
             return res.status(201).send({ message: "succes", data: result })
         }).catch((error)=> {
             return res.status(500).send({ message: error })
         })
     },
     remove:(req, res)=> {
-
+        return productModel.remove(req.params.id)
+        .then((result)=> {
+            for (let index = 0; index < result.length; index++) {
+                unlink(`public/uploads/images/${result[index].filename}`, (err) => {
+                    if (err) throw err;
+                    console.log(`successfully deleted ${result[index].filename}`);
+                });
+            }
+            return res.status(201).send({ message: "succes deleted", data: result })
+        }).catch((error)=> {
+            return res.status(500).send({ message: error })
+        })
     }, 
 }
 

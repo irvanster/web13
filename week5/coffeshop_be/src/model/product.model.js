@@ -43,9 +43,11 @@ const productModel = {
                 `SELECT 
                   products.id, products.title, products.price, products.category,  
                   json_agg(row_to_json(product_images)) images
-                FROM products 
+                FROM products
                 INNER JOIN product_images ON products.id=product_images.id_product
                 GROUP BY products.id LIMIT ${limit} OFFSET (${page}-1)*${limit}`,
+                // AND title ILIKE '%${queryParams.search}%'
+                // AND EXISTS (SELECT * FROM products WHERE title ILIKE '%${queryParams.search}%')
 
                 // PAGE 1
                 // LIMIT = 5
@@ -157,12 +159,13 @@ const productModel = {
     //     })
 
     // },
-    update:({id, title, img, price, category})=> {
+    update:({id, title, img, price, category, file})=> {
         return new Promise((resolve, reject)=> {
             db.query(`SELECT * FROM products WHERE id='${id}'`,(err, result)=>{
                 if(err) {
                     return reject(err.message)
                 }else {
+                  // result.rows[0]
                     // const dataUpdate = [result.rows[0].title, result.rows[0].img, result.rows[0].price, result.rows[0].category]
                     db.query(
                         `UPDATE products SET title='${title || result.rows[0].title}', img='${img || result.rows[0].img}',price='${price || result.rows[0].price}', category='${category || result.rows[0].category}' WHERE id='${id}'`,
@@ -170,7 +173,27 @@ const productModel = {
                           if (err) {
                             return reject(err.message)
                           } else {
-                            return resolve({id, title, img, price, category})
+                            if(typeof file == "undefined") return resolve({id, title, price, category})
+                            db.query(`SELECT id_image, filename FROM product_images WHERE id_product='${id}'`,(errOld, resultOld)=> {
+                              if(errOld) return reject({message: errOld.message})
+                              console.log(resultOld)
+                              // for (let index = 0; index < file.length; index++) {
+                              //   db.query(`UPDATE product_images SET filename=$1 WHERE id_product=$2`,[file[index].filename, id], (err, result)=> {
+                              //     if(err) return reject({message: "image gagal dihapus"})
+                              //     return resolve({id, title, price, category, oldImages: resultOld.rows, images: file})
+                              //   })
+                              // }
+                              for (let indexOld = 0; indexOld < resultOld.rowCount; indexOld++) {
+                                for (let indexNew = 0; indexNew < file.length; indexNew++) {
+                                  db.query(`UPDATE product_images SET filename=$1 WHERE id_image=$2`,[file[indexNew].filename, resultOld[indexOld].id_image], (err, result)=> {
+                                    if(err) return reject({message: "image gagal dihapus"})
+                                    return resolve({id, title, price, category, oldImages: resultOld.rows, images: file})
+                                  })
+                                  
+                                }
+                              }
+
+                            })
                           }
                         }
                       );
@@ -186,7 +209,10 @@ const productModel = {
                   if (err) {
                     return reject(err.message);
                   } else {
-                    return resolve('success delete')
+                    db.query(`DELETE FROM product_images WHERE id_product='${id}' RETURNING filename`, (err, result)=> {
+                      if(err) return reject({message:'gambar gagal dihapus'})
+                      return resolve(result.rows)
+                    })
                   }
                 }
               );
