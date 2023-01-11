@@ -173,25 +173,23 @@ const productModel = {
                           if (err) {
                             return reject(err.message)
                           } else {
-                            if(typeof file == "undefined") return resolve({id, title, price, category})
-                            db.query(`SELECT id_image, filename FROM product_images WHERE id_product='${id}'`,(errOld, resultOld)=> {
-                              if(errOld) return reject({message: errOld.message})
-                              console.log(resultOld)
-                              // for (let index = 0; index < file.length; index++) {
-                              //   db.query(`UPDATE product_images SET filename=$1 WHERE id_product=$2`,[file[index].filename, id], (err, result)=> {
-                              //     if(err) return reject({message: "image gagal dihapus"})
-                              //     return resolve({id, title, price, category, oldImages: resultOld.rows, images: file})
-                              //   })
-                              // }
-                              for (let indexOld = 0; indexOld < resultOld.rowCount; indexOld++) {
+
+                            if(file.length <= 0) return resolve({id, title, price, category})
+
+                            db.query(`SELECT id_image, filename FROM product_images WHERE id_product='${id}'`,(errProductImages, productImages)=> {
+                              if(errProductImages) return reject({message: errProductImages.message})
+                              // console.log(productImages)
+
+                              //update image with upload = done ✅
+                              // for (let indexOld = 0; indexOld < productImages.rowCount; indexOld++) {
                                 for (let indexNew = 0; indexNew < file.length; indexNew++) {
-                                  db.query(`UPDATE product_images SET filename=$1 WHERE id_image=$2`,[file[indexNew].filename, resultOld[indexOld].id_image], (err, result)=> {
+                                  db.query(`UPDATE product_images SET filename=$1 WHERE id_image=$2`,[file[indexNew].filename, productImages.rows[indexNew].id_image], (err, result)=> {
                                     if(err) return reject({message: "image gagal dihapus"})
-                                    return resolve({id, title, price, category, oldImages: resultOld.rows, images: file})
+                                    return resolve({id, title, price, category, oldImages: productImages.rows, images: file})
                                   })
                                   
                                 }
-                              }
+                              // }
 
                             })
                           }
