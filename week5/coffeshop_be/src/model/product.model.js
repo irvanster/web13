@@ -182,11 +182,25 @@ const productModel = {
 
                               //update image with upload = done ✅
                               // for (let indexOld = 0; indexOld < productImages.rowCount; indexOld++) {
-                                for (let indexNew = 0; indexNew < file.length; indexNew++) {
+                                //ketika file.length lebih dari data images dr database
+                                // maka 1. bisa kita skip / message (fitur belum di suuport)
+                                // maka 2. kita akan ganti update, jadi INSERT INTO
+                                   // 1-2 -> update
+                                   // 3 -> insert
+                                  // file.lengt = 5-3 = 2
+
+
+                                  for (let indexNew = 0; indexNew < file.length; indexNew++) {
                                   db.query(`UPDATE product_images SET filename=$1 WHERE id_image=$2`,[file[indexNew].filename, productImages.rows[indexNew].id_image], (err, result)=> {
                                     if(err) return reject({message: "image gagal dihapus"})
                                     return resolve({id, title, price, category, oldImages: productImages.rows, images: file})
                                   })
+                                  // for (let sisaImage = 0; sisaImage < file.length-productImages.rowCount; sisaImage++) {
+                                  //   db.query(`INSERT INTO product_images VALUES(UUIDV4, idPORUCT)`,[file[indexNew].filename, productImages.rows[indexNew].id_image], (err, result)=> {
+                                  //     if(err) return reject({message: "image gagal dihapus"})
+                                  //     return resolve({id, title, price, category, oldImages: productImages.rows, images: file})
+                                  //   })
+                                  // }   
                                   
                                 }
                               // }
