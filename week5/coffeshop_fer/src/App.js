@@ -40,7 +40,7 @@ export default function App() {
           </div>
         </div>
       </div>
-      <div className="cardhalo italic text-3xl text-[#999] font-bold">HELLOW WORLD</div>
+      <div className="italic text-3xl text-[#999] font-bold">HELLOW WORLD</div>
       <h1 className="font-bold text-3xl underline">aowkow</h1>
       <h6>aowkow</h6>
       <p>aowkow</p>
