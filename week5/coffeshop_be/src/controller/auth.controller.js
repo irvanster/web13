@@ -12,7 +12,13 @@ const authController = {
             jwt.sign({ id: result.id, role: result.role}, JWT_PRIVATE_KEY, (err, token)=> {
                 return res.status(200).send({ message: "success", data: {
                     token,
-                    user: result,
+                    user: {
+                        id: result.id, 
+                        fullname: result.fullname, 
+                        image: result.image, 
+                        role: result.role, 
+                        username: result.username
+                    },
                 }})
             })
         }).catch((error)=> {

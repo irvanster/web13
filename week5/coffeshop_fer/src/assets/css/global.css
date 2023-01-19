@@ -3,7 +3,10 @@
 @tailwind utilities;
 
 
-@layer components {
+:root, [data-theme] {
+    @apply bg-primary
+    /* background-color: hsl(var(--p)); */
+}
     /* .cardhalo {
         margin-top: 50px;
         padding: 50px
@@ -12,4 +15,3 @@
         @apply bg-[#0a0] px-5 py-3 rounded-xl text-white drop-shadow-sm duration-300 
         hover:bg-[#030] hover:drop-shadow-xl
     } */
-}
