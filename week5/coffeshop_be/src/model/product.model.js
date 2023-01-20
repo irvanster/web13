@@ -16,7 +16,7 @@ const productModel = {
     },
     get: function (queryParams) {
         console.log(queryParams)
-        const {page=1, limit=15} = queryParams
+        const {page=1, limit=15, search=''} = queryParams
         // ${queryParams.search && `WHERE title LIKE '%${queryParams.search}%'`}
         // ${queryParams.search && `WHERE title LIKE '%${queryParams.search}%' OR category LIKE '%${queryParams.search}%'`}
         //uncomment if single
@@ -45,8 +45,8 @@ const productModel = {
                   json_agg(row_to_json(product_images)) images
                 FROM products
                 INNER JOIN product_images ON products.id=product_images.id_product
+                ${search && `AND title ILIKE '%${search}%'`}
                 GROUP BY products.id LIMIT ${limit} OFFSET (${page}-1)*${limit}`,
-                // AND title ILIKE '%${queryParams.search}%'
                 // AND EXISTS (SELECT * FROM products WHERE title ILIKE '%${queryParams.search}%')
 
                 // PAGE 1

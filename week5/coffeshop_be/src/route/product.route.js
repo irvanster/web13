@@ -6,7 +6,7 @@ const router = express();
 //import controller
 const productController = require('../controller/product.controller')
 
-router.get('/', verifyToken, productController.get)
+router.get('/', productController.get)
 router.get('/:id', productController.getDetail)
 router.post('/', verifyToken, formUpload.array('img'), productController.add)
 // router.put('/', productController.update)

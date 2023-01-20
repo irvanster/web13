@@ -2,38 +2,26 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Header from "../components/header";
 
+
 export default function Products() {
-  const [data, setData] = useState([]);
-  const [refetch, setRefetch] = useState(false);
   const [keyword, setKeyword] = useState('');
-
-  console.log(keyword)
-  useEffect(()=> {
-    axios
-    .get(`http://localhost:5000/api/v1/products?search=${keyword}`)
-    .then((res) => {
-      setData(res.data.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  },[refetch, keyword])
-  // Arbitrary values tailwind
-
+  const {data, error, loading} = useSelector((state)=> state.products)
 
   return (
     <>
       <Header title="All Products" />
       <div className="bg-accents pt-10">
       <input
-          onChange={(e)=> setKeyword(e.target.value)}
+          onChange={(e)=> dispatch(getDataProduct(e.target.value))}
           type="text"
           placeholder="cari: lumpia, coffe"
           className="input input-bordered w-full max-w-xs"
         />
-        <button className="btn btn-primary mt-[100px]" onClick={()=> setRefetch(true)}>Refresh</button>
+        <button className="btn btn-primary mt-[100px]" onClick={()=> {
+          dispatch(getDataProduct())
+        }}>Refresh</button>
         <div className="p-5 flex flex-wrap justify-center">
-          {data.map(({ title, price, images }) => {
+          {loading?  ('loading..'):data.map(({ title, price, images }) => {
             //100 = mobile
             // 50 = tablet
             // 70 = pc
