@@ -16,7 +16,16 @@ const productController = {
         })
     },
     getDetail:(req, res)=> {
-
+        return productModel.getDetail(req.params.id)
+        .then((result)=> {
+            console.log(result)
+            //next explore
+            // return formResponse("succes", result, 200)
+            // return formResponse({ message: "succes", data: result, status: 200 })
+            return res.status(200).send({ message: "success", data: result })
+        }).catch((error)=> {
+            return res.status(500).send({ message: error })
+        })
     },
     add:(req, res)=> {
         console.log(req.files)
