@@ -8,10 +8,12 @@ const productController = require('../controller/product.controller')
 
 router.get('/', productController.get)
 router.get('/:id', productController.getDetail)
-router.post('/', verifyToken, formUpload.array('img'), productController.add)
+router.post('/', formUpload.array('img'), productController.add)
 // router.put('/', productController.update)
 router.patch('/:id', verifyToken, formUpload.array('img'), productController.update)
-router.delete('/:id', verifyToken, productController.remove)
+//TODO token harus ada
+router.delete('/:id', productController.remove)
+// router.delete('/:id', verifyToken, productController.remove)
 
 // delete //remove
 

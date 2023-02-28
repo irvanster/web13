@@ -11,6 +11,9 @@ const commonStyle = StyleSheet.create({
       backgroundColor: '#F2F2F2',
       flex: 1
     },
+    row: {
+      flexDirection: 'row'
+    }
   })
 
 export default commonStyle

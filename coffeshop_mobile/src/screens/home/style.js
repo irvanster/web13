@@ -20,6 +20,7 @@ const style = StyleSheet.create({
     color: "#6A4029",
     fontSize: 17,
     fontWeight: "700",
+    marginBottom: 15
   },
   cardWrap: {
     width: Dimensions.get("window").width / 1.5,
@@ -38,6 +39,7 @@ const style = StyleSheet.create({
     justifyContent: "flex-end",
     alignItems: "center",
   },
+  delIcon:{ backgroundColor: 'red', padding: 5, borderRadius: 100, position: 'absolute', bottom: 25, right: 25 }
 });
 
 export default style;

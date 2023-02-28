@@ -44,7 +44,7 @@ const productModel = {
                   products.id, products.title, products.price, products.category,  
                   json_agg(row_to_json(product_images)) images
                 FROM products
-                INNER JOIN product_images ON products.id=product_images.id_product
+                LEFT JOIN product_images ON products.id=product_images.id_product
                 ${search && `AND title ILIKE '%${search}%'`}
                 GROUP BY products.id LIMIT ${limit} OFFSET (${page}-1)*${limit}`,
                 // AND EXISTS (SELECT * FROM products WHERE title ILIKE '%${queryParams.search}%')
@@ -131,9 +131,9 @@ const productModel = {
                   } else {
                     // console.log(uuidImage, uuidProduct)
                     //ini berlaku ketika upload multiple (array)
-                    for (let index = 0; index < file.length; index++) {
-                      db.query(`INSERT INTO product_images (id_image, id_product, name, filename) VALUES($1, $2 ,$3 , $4)`,[uuidv4(), result.rows[0].id, title,file[index].filename])
-                    }
+                    // for (let index = 0; index < file.length; index++) {
+                    //   db.query(`INSERT INTO product_images (id_image, id_product, name, filename) VALUES($1, $2 ,$3 , $4)`,[uuidv4(), result.rows[0].id, title,file[index].filename])
+                    // }
                     //end dihapus dan files: file dihapus boleh
                     return resolve({title, price, category, images: file})
                   }
