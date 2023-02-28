@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   const [isLoggin, setIsLoggin] = React.useState({
-    value: false, data: null
+    value: false, data: {}
   })
   const getDataAuth = async () => {
     try {
@@ -28,7 +28,7 @@ function App() {
       }else {
         setIsLoggin({
           value: false,
-          data: null
+          data: {}
         })
       }
     } catch(e) {

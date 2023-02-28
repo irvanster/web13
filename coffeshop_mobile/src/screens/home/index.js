@@ -59,7 +59,7 @@ const HomeScreen = ({ navigation }) => {
 
 
   const [isLoggin, setIsLoggin] = React.useState({
-    value: false, data: null
+    value: false, data: {}
   })
   const getDataAuth = async () => {
     try {
@@ -72,7 +72,7 @@ const HomeScreen = ({ navigation }) => {
       }else {
         setIsLoggin({
           value: false,
-          data: null
+          data: {}
         })
       }
     } catch(e) {
