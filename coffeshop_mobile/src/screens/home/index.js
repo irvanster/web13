@@ -26,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
     });
   useEffect(() => {
     axios
-      .get("http://192.168.1.4:5000/api/v1/products?limit=5")
+      .get("http://192.168.100.121:5000/api/v1/products?limit=5")
       .then((res) => setDataProduct(res.data.data))
       .catch((err) => console.log(err.message));
   }, [refetch]);
@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
     // Alert.alert("Apa Kamu Yakin?", "Kamu akan menghapus ini", [
     //   { text: "Tidak" },
     //   { text: "Haqqul Yaqin", onPress: ()=> {
-    //     axios.delete(`http://192.168.1.4:5000/api/v1/products/${idProduct}`)
+    //     axios.delete(`http://192.168.100.121:5000/api/v1/products/${idProduct}`)
     //     .then((res)=> {
     //       setRefetch(!refetch)
     //       ToastAndroid.show('Berhasil dihapus', ToastAndroid.SHORT)
@@ -45,7 +45,7 @@ const HomeScreen = ({ navigation }) => {
     //     })
     //   }},
     // ], {cancelable: true});
-    axios.delete(`http://192.168.1.4:5000/api/v1/products/${idProduct}`)
+    axios.delete(`http://192.168.100.121:5000/api/v1/products/${idProduct}`)
     .then((res)=> {
       setRefetch(!refetch)
       ToastAndroid.show('Berhasil dihapus', ToastAndroid.SHORT)
@@ -101,7 +101,7 @@ const HomeScreen = ({ navigation }) => {
           data={dataProduct}
           renderItem={({ item }) => {
             // console.log(
-            //   `http://192.168.1.4:5000/uploads/images/${item.images[0].filename}`
+            //   `http://192.168.100.121:5000/uploads/images/${item.images[0].filename}`
             // );
             return (
               <Pressable
@@ -120,7 +120,7 @@ const HomeScreen = ({ navigation }) => {
                   //url harus di tambahin width dan height
                   //di local ga perlu dah tampil.
                   source={{
-                    uri: `http://192.168.1.4:5000/uploads/images/${item.images[0].filename}`,
+                    uri: `http://192.168.100.121:5000/uploads/images/${item.images[0].filename}`,
                   }}
                   // source={require('../../images/prod.png')}
                   style={{

@@ -1,36 +1,91 @@
 import axios from "axios"
 import { useState } from "react"
-import { Pressable, TextInput, ToastAndroid, View } from "react-native"
+import { Image, Pressable, ScrollView, TextInput, ToastAndroid, View } from "react-native"
 import {Text} from '../../components/commons'
+import * as ImagePicker from 'expo-image-picker';
 const AddProduct =()=> {
     const [formProduct, setFormProduct] = useState({
         name: '',
         price: '',
-        category: ''
+        category: '',
+        images: []
     })
     const handleAddProduct = ()=> {
-        //form-upload (image upload)
+        // alert('wok')
+        // form-upload (image upload)
         // TODO implements image from gallery -> tommorrow
-        // const formdata = new FormData()
+        const formdata = new FormData()
         
-        // formdata.append(formProduct.name)
-        // formdata.append(formProduct.price)
-        // formdata.append(formProduct.category)
+        formdata.append('name',formProduct.name)
+        formdata.append('price', formProduct.price)
+        formdata.append('category',formProduct.category)
+        // console.log({
+        //     uri: formProduct.images[0].uri,
+        //     name: `product-${Date.now()}`,
+        //     type: 'image/jpeg'
+        // })
+        // formdata.append("img[]", {
+        //     uri: formProduct.images[0].uri,
+        //     name: `product-${Date.now()}`,
+        //     type: 'image/jpeg'
+        // });
+        // formdata.append('images', formProduct.images)
+         formProduct.images.length != 0 &&  formProduct.images.map(({ uri }) => {
+            formdata.append("img", {
+                uri: formProduct.images[0].uri,
+                name: `product-${Date.now()}.jpg`,
+                type: 'image/jpeg'
+            });
+        });
+        console.log('loading...')
         axios({
-            url: 'http://192.168.1.4:5000/api/v1/products',
+            url: 'http://192.168.100.121:5000/api/v1/products',
             method: 'post',
-            data: formProduct
-        }).then(()=> {
+            data: formProduct,
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        }).then((res)=> {
+            console.log(JSON.stringify(res.data))
             ToastAndroid.show('Product Sukses di Posting.', ToastAndroid.SHORT)
-        }).catch(()=> {
+        console.log('berhasil...')
+
+        }).catch((err)=> {
+            console.log(JSON.stringify(err.data))
             ToastAndroid.show('Product Gagal Di Up.', ToastAndroid.SHORT)
+        console.log('gagal...')
+
         })
 
         // console.warn(formProduct)
     }
+
+    const pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [3, 3],
+        quality: 1,
+      });
+  
+      console.log(result);
+  
+      if (!result.canceled) {
+        setFormProduct({...formProduct, images: result.assets});
+      }
+    };
     return(
-        <View style={{ padding: 15 }}>
+        <ScrollView style={{ padding: 15 }}>
             <View style={{ marginBottom: 15 }}>
+                <Pressable onPress={pickImage} 
+                style={{ backgroundColor: "#f0f0f0", borderColor: '#999', borderWidth: 1 ,height: 300 }}>
+                    <Text>add image</Text>
+                    {formProduct.images.length != 0  && (
+                        <Image source={{ uri: formProduct.images[0].uri }} style={{ width: '100%', height: 300 }} />
+
+                    )}
+                </Pressable>
                 <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Name</Text>
                 <TextInput 
                     onChangeText={(text)=> setFormProduct({...formProduct, name: text}) } 
@@ -88,7 +143,7 @@ const AddProduct =()=> {
                 {/* <Text style={{ color: '#F6F6F9' }}>Save Product</Text> */}
                 <Text color="#F6F6F9" align={'center'}>Save Product</Text>
             </Pressable>
-        </View>
+        </ScrollView>
     )
 }
 export default AddProduct

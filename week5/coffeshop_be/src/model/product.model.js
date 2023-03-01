@@ -121,6 +121,7 @@ const productModel = {
         })
     },
     add:({title, price, category,file})=> {
+      console.log(file)
         return new Promise((resolve, reject)=> {
           //table product
             db.query(

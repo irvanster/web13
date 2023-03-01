@@ -45,7 +45,7 @@ function App() {
   // https://reactnavigation.org/docs/bottom-tab-navigator/
   return (
     <NavigationContainer>
-      <Stack.Navigator 
+      <Stack.Navigator initialRouteName='AddProduct'
       >
         {isLoggin.value ? (<>
           <Stack.Screen name="HomeScreen" component={HomeScreen} options={{

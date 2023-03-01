@@ -28,7 +28,7 @@ const productController = {
         })
     },
     add:(req, res)=> {
-        console.log(req.files)
+        console.log(req, 'awokkow')
         const request = {
             ...req.body,
             file: req.files, //uncomment if multiple
